@@ -10,7 +10,8 @@ from newspaper import Article
 import re
 import string
 
-stream = feedparser.parse("http://news.google.com/news?q={}&output=rss")
+searchTerm = "USA"
+stream = feedparser.parse("http://news.google.com/news?q={" + searchTerm + "}&output=rss")
 
 for page in stream.entries:
     article = Article(page['link'])
