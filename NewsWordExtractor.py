@@ -3,23 +3,30 @@ Created on May 14, 2019
 
 @author: benjaminlitvin
 
-Program takes 100 news articles and prints the ten most common words for each one
+Program takes news articles and prints the ten most common words for each one
 '''
 import feedparser
 from newspaper import Article 
 import re
 import string
 
-searchTerm = "USA"
-stream = feedparser.parse("http://news.google.com/news?q={" + searchTerm + "}&output=rss")
+searchTerm = "Ronaldo"
+beginDate = "2019-1-1"
+endDate = "2019-3-1"
+stream = feedparser.parse("http://news.google.com/news?q={}+after:{}+before:{}&output=rss".format(searchTerm, beginDate, endDate))
 
 for page in stream.entries:
-    article = Article(page['link'])
-    article.download()
-    article.parse()
-    
     print(page['title'])
     print(page['link'])
+    print(page['published'])
+    
+    article = Article(page['link'])
+    article.download()
+    if article.download_state == 1:
+        print("URL Error\n")
+        continue
+    article.parse()
+    
     
     textArr = re.sub('[' + string.punctuation + ']', '', article.text).lower().split()
     
